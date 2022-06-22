@@ -4,7 +4,8 @@
   "info": {
     "singularName": "level",
     "pluralName": "levels",
-    "displayName": "Level"
+    "displayName": "Level",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -19,6 +20,26 @@
       "relation": "manyToOne",
       "target": "api::course.course",
       "inversedBy": "levels"
+    },
+    "subject_1": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::subject.subject"
+    },
+    "subject_2": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::subject.subject"
+    },
+    "subject_3": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::subject.subject"
+    },
+    "subject_4": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::subject.subject"
     }
   }
 }
