@@ -21,25 +21,11 @@
       "target": "api::course.course",
       "inversedBy": "levels"
     },
-    "subject_1": {
+    "subjects": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::subject.subject"
-    },
-    "subject_2": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::subject.subject"
-    },
-    "subject_3": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::subject.subject"
-    },
-    "subject_4": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::subject.subject"
+      "relation": "oneToMany",
+      "target": "api::subject.subject",
+      "mappedBy": "level"
     }
   }
 }
