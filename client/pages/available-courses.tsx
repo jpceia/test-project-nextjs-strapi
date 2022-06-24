@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { Fragment, useEffect, useState } from "react";
 import CourseCard from "../common/components/CourseCard";
+import PrivateLayout from "../common/components/PrivateLayout";
 import { ICourse } from "../common/types";
 import styles from "../styles/AvailableCourses.module.css"
 
@@ -30,7 +31,7 @@ const AvailableCourses: NextPage = () => {
   console.log(courses);
   
   return (
-    <Fragment>
+    <PrivateLayout>
       <h1>Available Courses</h1>
       <div className={styles.grid}>
       {
@@ -44,7 +45,7 @@ const AvailableCourses: NextPage = () => {
         )
       }
       </div>
-    </Fragment>
+    </PrivateLayout>
   );
 };
 
