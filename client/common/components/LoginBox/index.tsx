@@ -1,47 +1,37 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import styles from "../../../styles/Home.module.css";
+import { useAuth } from "../../auth";
 
 const LoginBox = () => {
-  const [ email, setEmail ] = useState<string>("");
-  const [ password, setPassword ] = useState<string>("");
-  const [ errorMessage, setErrorMessage ] = useState<string>("");
+  const [ email, setEmail ] = useState<string>('');
+  const [ password, setPassword ] = useState<string>('');
+  const { loginUser, error } = useAuth();
 
-  const onSubmit = () => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/local`, {
-      method: 'POST',
-      headers: {},
-      body: JSON.stringify({
-        email,
-        password
-      }),
-    }).then((response) => response.json())
-      .then((json) => {
-        setErrorMessage("")
-    }).catch(
-      (error) => setErrorMessage(error)
-    )
+  const onSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    loginUser(email, password);
   }
 
   return (
     <div className={styles.login}>
       <h3>Login</h3>
-      { errorMessage && <p style={{color: "red"}}>errorMessage</p> }
-      <form>
+      { error && <p style={{color: "red"}}>{error}</p> }
+      <form onSubmit={onSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="login-email">Email</label>
           <input
             type="email"
-            id="email"
+            id="login-email"
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="login-password">Password</label>
           <input
             type="password"
-            id="password"
+            id="login-password"
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -51,7 +41,6 @@ const LoginBox = () => {
           <input
             type="submit"
             value="Entrar"
-            onClick={onSubmit}
           />
         </div>
       </form>

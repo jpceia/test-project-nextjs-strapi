@@ -1,60 +1,48 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
+import { useAuth } from "../../auth";
 
 const RegisterBox = () => {
   const [ email, setEmail ] = useState("");
   const [ name, setName ] = useState("");
   const [ password, setPassword ] = useState("");
+  const { registerUser, error } = useAuth();
 
 
-  const onSubmit = () => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/local/register'`, {
-      method: 'POST',
-      headers: {},
-      body: JSON.stringify({
-        username: name,
-        email,
-        password
-      })
-    }).then((response) => response.json())
-      .then((json) => {
-        const { data } = json;
-        console.log("user:", data);
-    })
-      .catch((error) => {
-        const { response } = error;
-        console.log("An error ocurred:", response);
-    });
+  const onSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    registerUser(name, email, password);
   }
 
   return (
     <div>
       <h3>Registrar</h3>
-      <form>
+      { error && <p style={{color: "red"}}>{error}</p> }
+      <form onSubmit={onSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="register-email">Email</label>
           <input
             type="email"
-            id="email"
+            id="register-email"
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="name">Nome</label>
+          <label htmlFor="register-name">Nome</label>
           <input
             type="text"
-            id="name"
+            id="register-name"
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="register-password">Password</label>
           <input
             type="password"
-            id="password"
+            id="register-password"
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -64,7 +52,6 @@ const RegisterBox = () => {
           <input
             type="submit"
             value="Entrar"
-            onClick={onSubmit}
           />
         </div>
       </form>
