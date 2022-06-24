@@ -39,3 +39,14 @@ interface ICourseAttributes extends IBaseAttributes {
 export interface PropsWithChildren {
   children: ReactNode
 }
+
+export interface User {
+  id: number,
+  username: string,
+  email: string,
+  provider: string,
+  confirmed: boolean,
+  blocked: boolean,
+  createdAt: string,
+  updatedat: string
+}
