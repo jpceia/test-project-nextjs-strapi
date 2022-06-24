@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 
 interface IStrapiResponse<T> {
   data: {
@@ -33,4 +34,8 @@ interface ICourseAttributes extends IBaseAttributes {
   description?: string;
   school?: ISchool;
   levels?: ILevel[];
+}
+
+export interface PropsWithChildren {
+  children: ReactNode
 }
