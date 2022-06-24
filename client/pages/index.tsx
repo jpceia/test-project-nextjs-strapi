@@ -4,9 +4,12 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import LoginBox from '../common/components/LoginBox'
 import RegisterBox from '../common/components/RegisterBox'
+import { useAuth } from '../common/auth'
 
 
 const Home: NextPage = () => {
+  const { user } = useAuth();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -22,17 +25,21 @@ const Home: NextPage = () => {
         <h2 className={styles.subtitle}>
           @ Workmedia
         </h2>
-
-        <div className={styles.nonAuthGrid}>
-          <LoginBox />
-          <RegisterBox />
-        </div>
-
-        <Link href="/available-courses">Available Courses</Link>
-        <Link href="/my-courses">My Courses</Link>
-        <Link href="/profile">Profile</Link>
-        <Link href="/logout">Logout</Link>
-
+        {
+          user ? ( // logged in
+            <div>
+              <Link href="/available-courses">Available Courses</Link>
+              <Link href="/my-courses">My Courses</Link>
+              <Link href="/profile">Profile</Link>
+              <Link href="/logout">Logout</Link>
+            </div>
+          ) : ( // logged out
+            <div className={styles.nonAuthGrid}>
+            <LoginBox />
+            <RegisterBox />
+          </div>
+          )
+        }
       </main>
     </div>
   )
