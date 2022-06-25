@@ -42,7 +42,8 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local/register`;
     const headers = {
-      "Content-Type": "application/json"
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     };
     const body = JSON.stringify({
       username,
@@ -75,7 +76,8 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local`;
     const headers = {
-      "Content-Type": "application/json"
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     };
     const body = JSON.stringify({
       identifier: email,
