@@ -7,39 +7,56 @@ import RegisterBox from '../common/components/RegisterBox'
 import { useAuth } from '../common/auth'
 
 
+interface PublicHomeBoxProps {
+  state: null | "login" | "register"
+}
+
+const PublicHomeBox = ({ state }: PublicHomeBoxProps) => {
+  if (state === "register")
+    return <RegisterBox />
+
+  if (state === "login")
+    return <LoginBox />
+
+  return ;
+}
+
+const PublicHome = () => {
+  const [state, setState] = useState<null | "login" | "register">(null);
+
+  return (
+    <div>
+      <h1 className={styles.title}>
+        Test Project
+      </h1>
+      <h2 className={styles.subtitle}>
+        @ Workmedia
+      </h2>
+      <h3 onClick={() => setState("login")}>Login</h3>
+      <h3 onClick={() => setState("register")}>Register</h3>
+      <div className={styles.nonAuthGrid}>
+        { (state === "login") && <LoginBox />}
+        { (state === "register") && <RegisterBox />}
+      </div>
+    </div>
+  );
+}
+
+
 const Home: NextPage = () => {
   const { user } = useAuth();
 
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Workmedia @ Test project</title>
-        <meta name="description" content="test-project-nextjs-strapi" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+  console.log(user);
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Test Project
-        </h1>
-        <h2 className={styles.subtitle}>
-          @ Workmedia
-        </h2>
-        {
-          user ? ( // logged in
-            <PrivateLayout>
-              Home
-            </PrivateLayout>
-          ) : ( // logged out
-            <div className={styles.nonAuthGrid}>
-            <LoginBox />
-            <RegisterBox />
-          </div>
-          )
-        }
-      </main>
-    </div>
-  )
+  if (user)
+    return (
+      <PrivateLayout>
+        Home
+      </PrivateLayout>
+    );
+
+  // Public
+  return <PublicHome />;
 }
 
 export default Home

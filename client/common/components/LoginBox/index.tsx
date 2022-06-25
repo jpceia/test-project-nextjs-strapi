@@ -14,7 +14,6 @@ const LoginBox = () => {
 
   return (
     <div className={styles.login}>
-      <h3>Login</h3>
       { error && <p style={{color: "red"}}>{error}</p> }
       <form onSubmit={onSubmit}>
         <div>

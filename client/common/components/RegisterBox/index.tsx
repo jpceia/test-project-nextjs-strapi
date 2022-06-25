@@ -15,7 +15,6 @@ const RegisterBox = () => {
 
   return (
     <div>
-      <h3>Registrar</h3>
       { error && <p style={{color: "red"}}>{error}</p> }
       <form onSubmit={onSubmit}>
         <div>
