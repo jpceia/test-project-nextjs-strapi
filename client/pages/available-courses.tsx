@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CourseCard from "../common/components/CourseCard";
 import PrivateLayout from "../common/components/PrivateLayout";
 import { ICoursesResponse, ICourse } from "../common/types";
@@ -29,11 +29,11 @@ const AvailableCourses: NextPage = () => {
   
   return (
     <PrivateLayout>
-      <h1>Available Courses</h1>
+      <h1>Cursos disponíveis</h1>
       <div className={styles.grid}>
       {
         courses === undefined ? (
-          <h2>No courses available yet</h2>
+          <h2>Não existem cursos disponiveis</h2>
         ) : (
           courses.data.map((course: ICourse) => {
             const { id } = course;
