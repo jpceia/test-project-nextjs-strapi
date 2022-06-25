@@ -1,11 +1,13 @@
 import { ReactNode } from "react";
 
+interface IIdAttrPair<T> {
+  id: number;
+  attributes: T;
+}
+
 interface IStrapiResponse<T> {
-  data: {
-    id: number;
-    attributes: T;
-  }
-  meta?: object;
+  data: IIdAttr<T>[];
+  meta: object;
 }
 
 interface IBaseAttributes
@@ -15,26 +17,40 @@ interface IBaseAttributes
   publishedAt: string;
 }
 
-interface ILevelAttributes extends IBaseAttributes {
-  name: string;
-}
-
 interface ISchoolAttributes extends IBaseAttributes {
   name: string;
   description?: string;
-  courses?: ICourse[];
+  courses?: { data: ICourse[] };
 }
-
-export type ILevel = IStrapiResponse<ILevelAttributes>;
-export type ICourse = IStrapiResponse<ICourseAttributes>;
-export type ISchool = IStrapiResponse<ISchoolAttributes>;
 
 interface ICourseAttributes extends IBaseAttributes {
   name: string;
   description?: string;
-  school?: ISchool;
-  levels?: ILevel[];
+  school?: { data: ISchool };
+  levels?: { data: ILevel[] };
 }
+
+interface ILevelAttributes extends IBaseAttributes {
+  name: string;
+  course?: { data: ICourse };
+  subjects?: { data: ISubject[] };
+}
+
+interface ISubjectAttributes extends IBaseAttributes {
+  name: string;
+  description?: string;
+  level?: { data: ILevel };
+}
+
+export type ISchoolsResponse = IStrapiResponse<ISchoolAttributes>;
+export type ICoursesResponse = IStrapiResponse<ICourseAttributes>;
+export type ILevelsResponse = IStrapiResponse<ILevelAttributes>;
+export type ISubjectResponse = IStrapiResponse<ISubjectAttributes>;
+
+export type ISchool = IIdAttrPair<ISchoolAttributes>;
+export type ICourse = IIdAttrPair<ICourseAttributes>;
+export type ILevel = IIdAttrPair<ILevelAttributes>;
+export type ISubject = IIdAttrPair<ISubjectAttributes>;
 
 export interface PropsWithChildren {
   children: ReactNode
