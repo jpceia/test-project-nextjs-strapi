@@ -42,15 +42,25 @@ interface ISubjectAttributes extends IBaseAttributes {
   level?: { data: ILevel };
 }
 
+interface IUserCourseAttributes extends IBaseAttributes {
+  user?: User;
+  course?: { data: ICourse };
+  level?: { data: ILevel };
+  subject_1?: { data: ISubject };
+  subject_2?: { data: ISubject };
+}
+
 export type ISchoolsResponse = IStrapiResponse<ISchoolAttributes>;
 export type ICoursesResponse = IStrapiResponse<ICourseAttributes>;
 export type ILevelsResponse = IStrapiResponse<ILevelAttributes>;
 export type ISubjectResponse = IStrapiResponse<ISubjectAttributes>;
+export type IUserCourseResponse = IStrapiResponse<IUserCourseAttributes>;
 
 export type ISchool = IIdAttrPair<ISchoolAttributes>;
 export type ICourse = IIdAttrPair<ICourseAttributes>;
 export type ILevel = IIdAttrPair<ILevelAttributes>;
 export type ISubject = IIdAttrPair<ISubjectAttributes>;
+export type IUserCourse = IIdAttrPair<IUserCourseAttributes>;
 
 export interface PropsWithChildren {
   children: ReactNode
