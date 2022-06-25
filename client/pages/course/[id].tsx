@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import PrivateLayout from "../../common/components/PrivateLayout";
 import { ICourseAttributes } from "../../common/types";
 
 
@@ -26,7 +27,7 @@ const Course: NextPage = () => {
   }, [query])
   
   return (
-    <Fragment>
+    <PrivateLayout>
       <h1>Course</h1>
       {
         course === undefined ? (
@@ -38,7 +39,7 @@ const Course: NextPage = () => {
           </div>
         )
       }
-    </Fragment>
+    </PrivateLayout>
   );
 };
 
