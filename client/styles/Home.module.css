@@ -25,29 +25,3 @@
   line-height: 1.15;
   font-size: 4rem;
 }
-
-.nonAuthGrid {
-  display: flex;
-  flex-direction: row;
-}
-
-.nonAuthGrid > * {
-  padding: 1rem;
-}
-
-.login {
-  border-right: 2px solid black;
-}
-
-.nonAuthGrid label{
-  display: inline-block;
-  float: left;
-  clear: left;
-  width: 250px;
-  text-align: right;
-}
-
-.nonAuthGrid input {
-  display: inline-block;
-  float: left;
-}
