@@ -6,6 +6,7 @@ interface AuthContextType {
   jwt: string,
   user: User | null,
   courses: ICourse[],
+  userCourses: IUserCourse[],
   isLoading: boolean,
   error: string,
   registerUser: (username: string, email: string, password: string) => void,
@@ -17,6 +18,7 @@ const AuthContext = createContext<AuthContextType>({
   jwt: '',
   user: null,
   courses: [],
+  userCourses: [],
   isLoading: false,
   error: '',
   registerUser: () => {},
@@ -28,6 +30,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [ jwt, setJwt ] = useState<string>('');
   const [ user, setUser ] = useState<User | null>(null);
   const [ courses, setCourses ] = useState<ICourse[]>([]);
+  const [ userCourses, setUserCourses ] = useState<IUserCourse[]>([]);
   const [ isLoading, setIsLoading ] = useState<boolean>(false);
   const [ error, setError ] = useState<string>('');
   const router = useRouter();
@@ -62,6 +65,29 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
       });
   }
 
+  const fetchUserCourses = (id: number) => {
+    // https://devtrium.com/posts/async-functions-useeffect
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses?populate=*&filters[user][id][$eq]=${id}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SERVER_API_TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
+        }
+        else {
+          const { data } = json;
+          setUserCourses(data);
+        }
+      });
+  }
+
   const registerUser = (username: string, email: string, password: string) => {
 
     resetStates();
@@ -92,6 +118,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
         else {
           setJwt(json.jwt);
           setUser(json.user);
+          fetchUserCourses(json.user.id);
         }
         setIsLoading(false);
       });
@@ -126,6 +153,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
         else {
           setJwt(json.jwt);
           setUser(json.user);
+          fetchUserCourses(json.user.id);
         }
         setIsLoading(false);
       });
@@ -138,7 +166,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <AuthContext.Provider value={{
-      jwt, user, courses, isLoading, error,
+      jwt, user, courses, userCourses, isLoading, error,
       registerUser, loginUser, logoutUser
     }}>
       {children}
