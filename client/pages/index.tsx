@@ -5,6 +5,8 @@ import styles from '../styles/Home.module.css'
 import LoginBox from '../common/components/LoginBox'
 import RegisterBox from '../common/components/RegisterBox'
 import { useAuth } from '../common/auth'
+import PrivateLayout from '../common/components/PrivateLayout'
+import { useState } from 'react'
 
 
 interface PublicHomeBoxProps {
