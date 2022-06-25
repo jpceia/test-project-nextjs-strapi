@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import { createContext, useContext, useState } from "react";
-import { PropsWithChildren, User } from "../types";
+import { PropsWithChildren, ICourse, IUserCourse, User } from "../types";
 
 interface AuthContextType {
   jwt: string,
   user: User | null,
+  courses: ICourse[],
   isLoading: boolean,
   error: string,
   registerUser: (username: string, email: string, password: string) => void,
@@ -15,6 +16,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   jwt: '',
   user: null,
+  courses: [],
   isLoading: false,
   error: '',
   registerUser: () => {},
@@ -25,6 +27,7 @@ const AuthContext = createContext<AuthContextType>({
 const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [ jwt, setJwt ] = useState<string>('');
   const [ user, setUser ] = useState<User | null>(null);
+  const [ courses, setCourses ] = useState<ICourse[]>([]);
   const [ isLoading, setIsLoading ] = useState<boolean>(false);
   const [ error, setError ] = useState<string>('');
   const router = useRouter();
@@ -33,11 +36,36 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
     setJwt('');
     setUser(null);
     setError('');
+    setUserCourses([]);
+  }
+
+  const fetchCourses = () => {
+    // https://devtrium.com/posts/async-functions-useeffect
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/courses?populate=*`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SERVER_API_TOKEN}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
+        }
+        else {
+          const { data } = json;
+          setCourses(data);
+        }
+      });
   }
 
   const registerUser = (username: string, email: string, password: string) => {
 
     resetStates();
+    fetchCourses();
     setIsLoading(true);
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local/register`;
@@ -72,6 +100,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const loginUser = (email: string, password: string) => {
 
     resetStates();
+    fetchCourses();
     setIsLoading(true);
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local`;
@@ -109,7 +138,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <AuthContext.Provider value={{
-      jwt, user, isLoading, error,
+      jwt, user, courses, isLoading, error,
       registerUser, loginUser, logoutUser
     }}>
       {children}
