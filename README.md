@@ -1,5 +1,7 @@
 # Test project using Next.js and Strapi
 
+> **ATENÇÃO**: não é obrigatório fazer o projecto todo. Faça até onde conseguir e, se possível, documente as suas dificuldades. O mais importante é entregar.
+
 ## Overview ℹ️
 Vamos criar uma aplicação de uma escola.
 
