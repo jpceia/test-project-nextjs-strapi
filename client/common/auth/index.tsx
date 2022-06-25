@@ -29,11 +29,21 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [ error, setError ] = useState<string>('');
   const router = useRouter();
 
+  const resetStates = () => {
+    setJwt('');
+    setUser(null);
+    setError('');
+  }
+
   const registerUser = (username: string, email: string, password: string) => {
 
-    setUser(null);
+    resetStates();
+    setIsLoading(true);
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local/register`;
+    const headers = {
+      "Content-Type": "application/json"
+    };
     const body = JSON.stringify({
       username,
       email,
@@ -42,56 +52,56 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     fetch(url, {
       method: 'POST',
-      headers: {},
+      headers,
       body
     }).then((response) => response.json())
       .then((json) => {
-        const { jwt, user, error } = json;
-        if (error) {
-          setJwt('');
-          setUser(null);
-          setError(error.message);
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
         }
         else {
-          setJwt(jwt);
-          setUser(user);
-          setError('');
+          setJwt(json.jwt);
+          setUser(json.user);
         }
+        setIsLoading(false);
       });
   };
 
   const loginUser = (email: string, password: string) => {
 
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local`, {
+    resetStates();
+    setIsLoading(true);
+
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local`;
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    const body = JSON.stringify({
+      identifier: email,
+      password
+    });
+
+    fetch(url, {
       method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        identifier: email,
-        password
-      })
+      headers,
+      body
     }).then((response) => response.json())
       .then((json) => {
-        const { jwt, user, error } = json;
-        if (error) {
-          console.log(error);
-          setJwt('');
-          setUser(null);
-          setError(error.message);
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
         }
         else {
-          setJwt(jwt);
-          setUser(user);
-          setError('');
+          setJwt(json.jwt);
+          setUser(json.user);
         }
+        setIsLoading(false);
       });
   };
 
   const logoutUser = () => {
-    setUser(null);
-    setJwt('');
-    setError('');
+    resetStates();
     router.push("/");
   }
 
