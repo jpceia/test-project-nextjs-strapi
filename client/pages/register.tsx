@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import PublicGuard from "../common/components/PublicGuard";
 import { SyntheticEvent, useState } from "react";
 import { useGlobalCtx } from "../common/context";
+import InputEntry from "../common/components/InputEntry";
 
 
 const Register: NextPage = () => {
@@ -22,33 +23,27 @@ const Register: NextPage = () => {
       <div>
         { error && <p style={{color: "red"}}>{error}</p> }
         <form onSubmit={onSubmit}>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="name">Nome</label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+          <InputEntry
+            type="email"
+            name="email"
+            label="Email"
+            value={email}
+            setValue={setEmail}
+          />
+          <InputEntry
+            type="text"
+            name="name"
+            label="Nome"
+            value={email}
+            setValue={setName}
+          />
+          <InputEntry
+            type="password"
+            name="password"
+            label="Password"
+            value={password}
+            setValue={setPassword}
+          />
           <div>
             <input
               type="submit"
