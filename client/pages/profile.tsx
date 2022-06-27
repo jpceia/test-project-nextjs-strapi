@@ -1,13 +1,13 @@
 import { NextPage } from "next";
 import { useGlobalCtx } from "../common/context";
-import PrivateLayout from "../common/components/PrivateLayout";
+import Layout from "../common/components/Layout";
 
 const Profile: NextPage = () => {
 
   const { user } = useGlobalCtx();
   
   return (
-    <PrivateLayout>
+    <Layout>
       <p>
         <strong>Nome:</strong>{user?.username}
       </p>
@@ -17,7 +17,7 @@ const Profile: NextPage = () => {
       <p>
         <strong>Data de registo:</strong>{user?.createdAt}
       </p>
-    </PrivateLayout>
+    </Layout>
   );
 }
 

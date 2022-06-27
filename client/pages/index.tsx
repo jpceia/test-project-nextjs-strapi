@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css'
 import LoginBox from '../common/components/LoginBox'
 import RegisterBox from '../common/components/RegisterBox'
 import { useGlobalCtx } from '../common/context'
-import PrivateLayout from '../common/components/PrivateLayout'
+import Layout from '../common/components/Layout'
 import { useState } from 'react'
 import Header from '../common/components/Header'
 
@@ -48,9 +48,9 @@ const Home: NextPage = () => {
 
   if (user)
     return (
-      <PrivateLayout>
+      <Layout>
         Home
-      </PrivateLayout>
+      </Layout>
     );
 
   // Public

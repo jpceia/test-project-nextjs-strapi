@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import PrivateLayout from "../../common/components/PrivateLayout";
+import Layout from "../../common/components/Layout";
 import { ICourseAttributes } from "../../common/types";
 
 

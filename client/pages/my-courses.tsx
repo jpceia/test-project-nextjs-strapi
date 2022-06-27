@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useGlobalCtx } from "../common/context";
 import CourseCard from "../common/components/CourseCard";
-import PrivateLayout from "../common/components/PrivateLayout";
+import PrivateLayout from "../common/components/Layout";
 import { ICourse, IUserCourse } from "../common/types";
 
 const MyCourses: NextPage = () => {

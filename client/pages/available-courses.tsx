@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useGlobalCtx } from "../common/context";
 import CourseCard from "../common/components/CourseCard";
-import PrivateLayout from "../common/components/PrivateLayout";
+import Layout from "../common/components/Layout";
 import { ICourse } from "../common/types";
 import styles from "../styles/AvailableCourses.module.css"
 
@@ -25,7 +25,7 @@ const AvailableCourses: NextPage = () => {
   }, [courses, userCourses]);
   
   return (
-    <PrivateLayout>
+    <Layout>
       <h1>Cursos disponíveis</h1>
       <div className={styles.grid}>
       {
@@ -39,7 +39,7 @@ const AvailableCourses: NextPage = () => {
         )
       }
       </div>
-    </PrivateLayout>
+    </Layout>
   );
 };
 
