@@ -1,8 +1,9 @@
 .nav {
   margin: 3rem auto;
   text-align: center;
-  display: inline-block;
-  list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .item {
