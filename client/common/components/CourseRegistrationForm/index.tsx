@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import { useGlobalCtx } from "../../context";
 import { ICourse, ILevel, ISubject } from "../../types";
 
@@ -27,7 +27,7 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
   }
 
   const onSubmit = () => {
-    console.log("Increvendo-se");
+
     if (!selectedLevel) {
       console.log("Level not selected");
       return ;
@@ -42,19 +42,7 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <select name="level" onChange={onChangeLevel}>
-        <option disabled selected> -- seleccione um nível -- </option>
-        {
-          levels.map((level: ILevel) => {
-            const { id, attributes } = level;
-            return (
-              <option key={id} value={id}>
-                {level.attributes.name}
-              </option>
-            );
-          })
-        }
-        </select>
+        <SelectLevel levels={levels} onChange={onChangeLevel} />
         <SubjectsCheckboxes
           level={selectedLevel}
           selectedSubjects={selectedSubjects}
@@ -70,6 +58,29 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
   );
 };
 
+interface SelectLevelProps {
+  levels: ILevel[],
+  onChange: ChangeEventHandler<HTMLSelectElement>
+}
+
+const SelectLevel = ({ levels, onChange }: SelectLevelProps) => {
+  return (
+  <select name="level" onChange={onChange}>
+    <option disabled selected> -- seleccione um nível -- </option>
+    {
+      levels.map((level: ILevel) => {
+        const { id, attributes } = level;
+        return (
+          <option key={id} value={id}>
+            {level.attributes.name}
+          </option>
+        );
+      })
+    }
+  </select>
+  );
+}
+
 
 interface SubjectsCheckboxesProps {
   level: ILevel | undefined;
@@ -81,8 +92,10 @@ const SubjectsCheckboxes = ({ level, selectedSubjects, setSelectedSubjects }: Su
 
   if (!level)
     return <div></div>;
+
   const { attributes } = level;
-  const { name, subjects } = attributes;
+  const { subjects } = attributes;
+
   if (!subjects)
     return <div></div>;
   const subjectsArr = subjects!.data;
@@ -92,7 +105,10 @@ const SubjectsCheckboxes = ({ level, selectedSubjects, setSelectedSubjects }: Su
     if (idx < 0) // add new Id
       setSelectedSubjects([...selectedSubjects, subjectId]);
     else // remove Id
-      setSelectedSubjects([...selectedSubjects.slice(0, idx), ...selectedSubjects.slice(idx + 1)])
+      setSelectedSubjects([
+        ...selectedSubjects.slice(0, idx),
+        ...selectedSubjects.slice(idx + 1)
+      ]);
   }
 
   return (
@@ -102,17 +118,17 @@ const SubjectsCheckboxes = ({ level, selectedSubjects, setSelectedSubjects }: Su
         const { id, attributes } = subject;
         const { name } = attributes;
         return (
-            <div key={id}>
-              <label>
-                <input
-                  type="checkbox"
-                  defaultChecked={selectedSubjects.indexOf(id) >= 0}
-                  onChange={() => onChange(id)}
-                />
-                {name}
-              </label>
-            </div>
-          );
+          <div key={id}>
+            <label>
+              <input
+                type="checkbox"
+                defaultChecked={selectedSubjects.indexOf(id) >= 0}
+                onChange={() => onChange(id)}
+              />
+              {name}
+            </label>
+          </div>
+        );
       })
     }
     </div>
