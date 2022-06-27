@@ -44,7 +44,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
   const fetchCourses = () => {
     // https://devtrium.com/posts/async-functions-useeffect
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/courses?populate=*`,
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/courses?populate[0]=*&populate[levels][populate][1]=subjects`,
     {
       method: 'GET',
       headers: {
