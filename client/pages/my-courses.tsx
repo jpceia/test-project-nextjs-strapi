@@ -1,14 +1,14 @@
 import { NextPage } from "next";
 import { useGlobalCtx } from "../common/context";
 import CourseCard from "../common/components/CourseCard";
-import PrivateLayout from "../common/components/Layout";
 import { ICourse, IUserCourse } from "../common/types";
+import PrivateGuard from "../common/components/PrivateGuard";
 
 const MyCourses: NextPage = () => {
   const { userCourses } = useGlobalCtx();
   
   return (
-    <PrivateLayout>
+    <PrivateGuard>
       <h1>Meus Cursos</h1>
       {
         userCourses && userCourses.length ? (
@@ -25,7 +25,7 @@ const MyCourses: NextPage = () => {
           <h2>Ainda não é estudante de nenhum curso</h2>
         )
       }
-    </PrivateLayout>
+    </PrivateGuard>
   );
 }
 

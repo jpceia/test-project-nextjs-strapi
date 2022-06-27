@@ -27,7 +27,7 @@ const Course: NextPage = () => {
   }, [query])
   
   return (
-    <PrivateLayout>
+    <PrivateGuard>
       <h1>Course</h1>
       {
         course === undefined ? (
@@ -39,7 +39,7 @@ const Course: NextPage = () => {
           </div>
         )
       }
-    </PrivateLayout>
+    </PrivateGuard>
   );
 };
 

@@ -1,11 +1,14 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import GlobalContextProvider from '../common/context';
+import Layout from '../common/components/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <GlobalContextProvider>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </GlobalContextProvider>
   );
 }
