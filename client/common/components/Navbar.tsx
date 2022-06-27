@@ -54,9 +54,9 @@ const Navbar = () => {
         const { path, display} = entry;
         return (
           <li key={index} className={styles.item}>
-            <a style={{fontWeight: router.pathname === path ? 'bold' : ''}}>
+            <span style={{fontWeight: router.pathname === path ? 'bold' : ''}}>
               <Link href={path}>{display}</Link>
-            </a>
+            </span>
           </li>
         );
       })
