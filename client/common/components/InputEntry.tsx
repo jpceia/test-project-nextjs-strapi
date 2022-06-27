@@ -1,3 +1,5 @@
+import styles from './InputEntry.module.css';
+
 interface InputEntryProps {
   type: "text" | "password" | "email",
   name: string,
@@ -8,7 +10,7 @@ interface InputEntryProps {
 
 const InputEntry = ({type, name, label, value, setValue}: InputEntryProps) => {
   return (
-    <div>
+    <div className={styles.entry}>
       <label htmlFor={name}>{label}</label>
       <input
         type={type}

@@ -1,0 +1,9 @@
+.entry {
+  margin: 1rem;
+  width: 60px;
+}
+
+.entry label {
+  font-weight: bold;
+}
+
