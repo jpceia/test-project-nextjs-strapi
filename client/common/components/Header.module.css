@@ -1,0 +1,15 @@
+
+.title {
+  margin: 5rem 0rem;
+  line-height: 1.15;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.brand {
+  color: #3333ff;
+  text-decoration: none;
+  margin: 0;
+  line-height: 1.15;
+  font-size: 4rem;
+}

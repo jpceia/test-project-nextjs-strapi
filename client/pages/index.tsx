@@ -7,6 +7,7 @@ import RegisterBox from '../common/components/RegisterBox'
 import { useGlobalCtx } from '../common/context'
 import PrivateLayout from '../common/components/PrivateLayout'
 import { useState } from 'react'
+import Header from '../common/components/Header'
 
 
 interface PublicHomeBoxProps {
@@ -28,12 +29,7 @@ const PublicHome = () => {
 
   return (
     <div>
-      <h1 className={styles.title}>
-        Test Project
-      </h1>
-      <h2 className={styles.subtitle}>
-        @ Workmedia
-      </h2>
+      <Header />
       <h3 onClick={() => setState("login")}>Login</h3>
       <h3 onClick={() => setState("register")}>Register</h3>
       <div className={styles.nonAuthGrid}>
