@@ -43,6 +43,7 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
     <div>
       <form onSubmit={onSubmit}>
         <select name="level" onChange={onChangeLevel}>
+        <option disabled selected> -- seleccione um nível -- </option>
         {
           levels.map((level: ILevel) => {
             const { id, attributes } = level;
