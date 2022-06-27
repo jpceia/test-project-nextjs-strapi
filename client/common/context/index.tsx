@@ -7,7 +7,6 @@ interface GlobalContextType {
   user: User | null,
   courses: ICourse[],
   userCourses: IUserCourse[],
-  isLoading: boolean,
   error: string,
   registerUser: (username: string, email: string, password: string) => void,
   loginUser: (email: string, password: string) => void,
@@ -21,7 +20,6 @@ const GlobalContext = createContext<GlobalContextType>({
   user: null,
   courses: [],
   userCourses: [],
-  isLoading: false,
   error: '',
   registerUser: () => {},
   loginUser: () => {},
@@ -35,7 +33,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
   const [ user, setUser ] = useState<User | null>(null);
   const [ courses, setCourses ] = useState<ICourse[]>([]);
   const [ userCourses, setUserCourses ] = useState<IUserCourse[]>([]);
-  const [ isLoading, setIsLoading ] = useState<boolean>(false);
   const [ error, setError ] = useState<string>('');
   const router = useRouter();
 
@@ -158,7 +155,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
 
     resetStates();
     fetchCourses();
-    setIsLoading(true);
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local/register`;
     const headers = {
@@ -186,7 +182,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
           setUser(json.user);
           fetchUserCourses(json.user.id);
         }
-        setIsLoading(false);
       });
   };
 
@@ -194,7 +189,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
 
     resetStates();
     fetchCourses();
-    setIsLoading(true);
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local`;
     const headers = {
@@ -221,7 +215,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
           setUser(json.user);
           fetchUserCourses(json.user.id);
         }
-        setIsLoading(false);
       });
   };
 
@@ -232,7 +225,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <GlobalContext.Provider value={{
-      jwt, user, courses, userCourses, isLoading, error,
+      jwt, user, courses, userCourses, error,
       registerUser, loginUser, logoutUser,
       registerCourse, unregisterCourse
     }}>
