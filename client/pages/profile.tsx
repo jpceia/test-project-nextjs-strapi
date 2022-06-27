@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import { useGlobalCtx } from "../common/context";
-import Layout from "../common/components/Layout";
 import PrivateGuard from "../common/components/PrivateGuard";
 
 const Profile: NextPage = () => {
