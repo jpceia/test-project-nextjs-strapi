@@ -3,6 +3,7 @@ import PublicGuard from "../common/components/PublicGuard";
 import { SyntheticEvent, useState } from "react";
 import { useGlobalCtx } from "../common/context";
 import InputEntry from "../common/components/InputEntry";
+import styles from "../styles/Register.module.css"
 
 
 const Register: NextPage = () => {
@@ -20,7 +21,7 @@ const Register: NextPage = () => {
 
   return (
     <PublicGuard>
-      <div>
+      <div className={styles.box}>
         { error && <p style={{color: "red"}}>{error}</p> }
         <form onSubmit={onSubmit}>
           <InputEntry
@@ -46,8 +47,9 @@ const Register: NextPage = () => {
           />
           <div>
             <input
+              className={styles.button}
               type="submit"
-              value="Entrar"
+              value="Registrar"
             />
           </div>
         </form>

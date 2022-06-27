@@ -3,6 +3,7 @@ import { SyntheticEvent, useState } from "react";
 import InputEntry from "../common/components/InputEntry";
 import PublicGuard from "../common/components/PublicGuard";
 import { useGlobalCtx } from "../common/context";
+import styles from "../styles/Login.module.css";
 
 
 const Login: NextPage = () => {
@@ -18,7 +19,7 @@ const Login: NextPage = () => {
 
   return (
     <PublicGuard>
-      <div>
+      <div className={styles.box}>
         { error && <p style={{color: "red"}}>{error}</p> }
         <form onSubmit={onSubmit}>
           <InputEntry
@@ -37,6 +38,7 @@ const Login: NextPage = () => {
           />
           <div>
             <input
+              className={styles.button}
               type="submit"
               value="Entrar"
             />
