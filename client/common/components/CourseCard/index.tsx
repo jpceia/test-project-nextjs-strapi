@@ -22,7 +22,6 @@ const CourseCard = ({ course }: CourseCardProps) => {
     <Link href={`/course/${id}`} className={styles.card}>
       <div className={styles.card}>
         <h2>{name}</h2>
-        <h3></h3> 
         <p>{description}</p>
       </div>
     </Link>
