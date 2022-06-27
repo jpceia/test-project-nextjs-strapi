@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, SyntheticEvent, useState } from "react";
 import { useGlobalCtx } from "../../context";
 import { ICourse, ILevel, ISubject } from "../../types";
 
@@ -26,7 +26,9 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
       setSelectedSubjects([]); // reset selectedSubjects if level changes
   }
 
-  const onSubmit = () => {
+  const onClick = (e: SyntheticEvent) => {
+
+    e.preventDefault();
 
     if (!selectedLevel) {
       console.log("Level not selected");
@@ -41,19 +43,18 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <SelectLevel levels={levels} onChange={onChangeLevel} />
-        <SubjectsCheckboxes
-          level={selectedLevel}
-          selectedSubjects={selectedSubjects}
-          setSelectedSubjects={setSelectedSubjects}
-        />
-        <input
-          type="button"
-          value="Inscrever"
-          disabled={selectedSubjects.length != 2}
-        />
-      </form>
+      <SelectLevel levels={levels} onChange={onChangeLevel} />
+      <SubjectsCheckboxes
+        level={selectedLevel}
+        selectedSubjects={selectedSubjects}
+        setSelectedSubjects={setSelectedSubjects}
+      />
+      <input
+        type="button"
+        value="Inscrever"
+        disabled={selectedSubjects.length != 2}
+        onClick={onClick}
+      />
     </div>
   );
 };
