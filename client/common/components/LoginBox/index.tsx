@@ -1,11 +1,11 @@
 import { SyntheticEvent, useState } from "react";
 import styles from "../../../styles/Home.module.css";
-import { useAuth } from "../../auth";
+import { useGlobalCtx } from "../../context";
 
 const LoginBox = () => {
   const [ email, setEmail ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
-  const { loginUser, error } = useAuth();
+  const { loginUser, error } = useGlobalCtx();
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();

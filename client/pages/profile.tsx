@@ -1,11 +1,10 @@
 import { NextPage } from "next";
-import { Fragment } from "react";
-import { useAuth } from "../common/auth";
+import { useGlobalCtx } from "../common/context";
 import PrivateLayout from "../common/components/PrivateLayout";
 
 const Profile: NextPage = () => {
 
-  const { user } = useAuth();
+  const { user } = useGlobalCtx();
   
   return (
     <PrivateLayout>

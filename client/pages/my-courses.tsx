@@ -1,12 +1,11 @@
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { useAuth } from "../common/auth";
+import { useGlobalCtx } from "../common/context";
 import CourseCard from "../common/components/CourseCard";
 import PrivateLayout from "../common/components/PrivateLayout";
 import { ICourse, IUserCourse } from "../common/types";
 
 const MyCourses: NextPage = () => {
-  const { userCourses } = useAuth();
+  const { userCourses } = useGlobalCtx();
   
   return (
     <PrivateLayout>

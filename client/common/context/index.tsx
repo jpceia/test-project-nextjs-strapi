@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { createContext, useContext, useState } from "react";
 import { PropsWithChildren, ICourse, IUserCourse, User } from "../types";
 
-interface AuthContextType {
+interface GlobalContextType {
   jwt: string,
   user: User | null,
   courses: ICourse[],
@@ -14,7 +14,7 @@ interface AuthContextType {
   logoutUser: () => void
 }
 
-const AuthContext = createContext<AuthContextType>({
+const GlobalContext = createContext<GlobalContextType>({
   jwt: '',
   user: null,
   courses: [],
@@ -26,7 +26,7 @@ const AuthContext = createContext<AuthContextType>({
   logoutUser: () => {}
 });
 
-const AuthContextProvider = ({ children }: PropsWithChildren) => {
+const GlobalContextProvider = ({ children }: PropsWithChildren) => {
   const [ jwt, setJwt ] = useState<string>('');
   const [ user, setUser ] = useState<User | null>(null);
   const [ courses, setCourses ] = useState<ICourse[]>([]);
@@ -165,15 +165,15 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
   }
 
   return (
-    <AuthContext.Provider value={{
+    <GlobalContext.Provider value={{
       jwt, user, courses, userCourses, isLoading, error,
       registerUser, loginUser, logoutUser
     }}>
       {children}
-    </AuthContext.Provider>
+    </GlobalContext.Provider>
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useGlobalCtx = () => useContext(GlobalContext);
 
-export default AuthContextProvider;
+export default GlobalContextProvider;

@@ -1,11 +1,11 @@
 import { SyntheticEvent, useState } from "react";
-import { useAuth } from "../../auth";
+import { useGlobalCtx } from "../../context";
 
 const RegisterBox = () => {
   const [ email, setEmail ] = useState("");
   const [ name, setName ] = useState("");
   const [ password, setPassword ] = useState("");
-  const { registerUser, error } = useAuth();
+  const { registerUser, error } = useGlobalCtx();
 
 
   const onSubmit = (e: SyntheticEvent) => {

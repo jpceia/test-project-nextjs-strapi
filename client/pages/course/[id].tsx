@@ -9,7 +9,7 @@ const Course: NextPage = () => {
 
   // to fetch [id] from the url
   const { query } = useRouter();
-  const [ course, setCourse ] = useState<ICourseAttributes | undefined>(undefined);
+  const { courses, userCourses } = useGlobalCtx();
 
   useEffect(() => {
     const { id } = query;

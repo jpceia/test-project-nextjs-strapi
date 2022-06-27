@@ -4,7 +4,7 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import LoginBox from '../common/components/LoginBox'
 import RegisterBox from '../common/components/RegisterBox'
-import { useAuth } from '../common/auth'
+import { useGlobalCtx } from '../common/context'
 import PrivateLayout from '../common/components/PrivateLayout'
 import { useState } from 'react'
 
@@ -46,7 +46,7 @@ const PublicHome = () => {
 
 
 const Home: NextPage = () => {
-  const { user } = useAuth();
+  const { user } = useGlobalCtx();
 
   console.log(user);
 

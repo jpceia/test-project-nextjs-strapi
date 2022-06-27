@@ -1,8 +1,8 @@
 import { NextPage } from "next";
-import { useAuth } from "../common/auth";
+import { useGlobalCtx } from "../common/context";
 
 const Logout: NextPage = () => {
-  const { logoutUser } = useAuth();
+  const { logoutUser } = useGlobalCtx();
 
   logoutUser();
 
