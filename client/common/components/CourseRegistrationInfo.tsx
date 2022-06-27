@@ -1,5 +1,5 @@
-import { useGlobalCtx } from "../../context";
-import { ICourse, IUserCourse } from "../../types";
+import { useGlobalCtx } from "../context";
+import { ICourse, IUserCourse } from "../types";
 
 interface CourseRegistrationInfoProps {
   course: ICourse;
