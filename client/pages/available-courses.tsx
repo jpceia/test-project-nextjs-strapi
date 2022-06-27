@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useGlobalCtx } from "../common/context";
 import CourseCard from "../common/components/CourseCard";
-import PrivateGuard from "../common/components/Layout";
+import PrivateGuard from "../common/components/PrivateGuard";
 import { ICourse } from "../common/types";
 import styles from "../styles/AvailableCourses.module.css"
 
