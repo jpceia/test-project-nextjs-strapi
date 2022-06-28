@@ -86,8 +86,12 @@ interface SelectLevelProps {
  */
 const SelectLevel = ({ levels, onChange }: SelectLevelProps) => {
   return (
-  <select name="level" onChange={onChange}>
-    <option disabled selected> -- seleccione um nível -- </option>
+  <select
+    name="level"
+    defaultValue="DEFAULT"
+    onChange={onChange}
+  >
+    <option value="DEFAULT" disabled> -- seleccione um nível -- </option>
     {
       levels.map((level: ILevel) => {
         const { id, attributes } = level;
