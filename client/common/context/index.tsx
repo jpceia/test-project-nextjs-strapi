@@ -45,12 +45,14 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
   }
 
   const fetchCourses = () => {
+    if (!jwt)
+      return ;
     // https://devtrium.com/posts/async-functions-useeffect
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/courses?populate[0]=*&populate[levels][populate][1]=subjects`,
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SERVER_API_TOKEN}`,
+        Authorization: `Bearer ${jwt}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -73,7 +75,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SERVER_API_TOKEN}`,
+        Authorization: `Bearer ${jwt}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -97,7 +99,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SERVER_API_TOKEN}`,
+        Authorization: `Bearer ${jwt}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -134,7 +136,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SERVER_API_TOKEN}`,
+        Authorization: `Bearer ${jwt}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
