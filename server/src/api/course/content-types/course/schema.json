@@ -30,6 +30,10 @@
       "relation": "oneToMany",
       "target": "api::level.level",
       "mappedBy": "course"
+    },
+    "duration": {
+      "type": "integer",
+      "min": 0
     }
   }
 }
