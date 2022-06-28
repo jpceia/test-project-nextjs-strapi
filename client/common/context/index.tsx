@@ -29,11 +29,11 @@ const GlobalContext = createContext<GlobalContextType>({
 });
 
 const GlobalContextProvider = ({ children }: PropsWithChildren) => {
-  const [ jwt, setJwt ] = useState<string>('');
-  const [ user, setUser ] = useState<User | null>(null);
-  const [ courses, setCourses ] = useState<ICourse[]>([]);
-  const [ userCourses, setUserCourses ] = useState<IUserCourse[]>([]);
-  const [ error, setError ] = useState<string>('');
+  const [ jwt, setJwt ] = useLocalStorage<string>('__jwt', '');
+  const [ user, setUser ] = useLocalStorage<User | null>('__user', null);
+  const [ courses, setCourses ] = useLocalStorage<ICourse[]>('__courses', []);
+  const [ userCourses, setUserCourses ] = useLocalStorage<IUserCourse[]>('__user_courses', []);
+  const [ error, setError ] = useLocalStorage<string>('__error', '');
   const router = useRouter();
 
   const resetStates = () => {
