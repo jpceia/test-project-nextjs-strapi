@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import PublicGuard from "../common/components/PublicGuard";
+import Guard from "../common/components/Guard";
 import { SyntheticEvent, useState } from "react";
 import { useGlobalCtx } from "../common/context";
 import InputEntry from "../common/components/InputEntry";
@@ -11,7 +11,7 @@ const Register: NextPage = () => {
   const [ email, setEmail ] = useState('');
   const [ name, setName ] = useState('');
   const [ password, setPassword ] = useState('');
-  const { registerUser, error } = useGlobalCtx();
+  const { user, registerUser, error } = useGlobalCtx();
 
 
   const onSubmit = (e: SyntheticEvent) => {
@@ -20,7 +20,7 @@ const Register: NextPage = () => {
   }
 
   return (
-    <PublicGuard>
+    <Guard condition={!user}>
       <div className={styles.box}>
         { error && <p style={{color: "red"}}>{error}</p> }
         <form onSubmit={onSubmit}>
@@ -54,7 +54,7 @@ const Register: NextPage = () => {
           </div>
         </form>
       </div>
-    </PublicGuard>
+    </Guard>
   );
 }
 

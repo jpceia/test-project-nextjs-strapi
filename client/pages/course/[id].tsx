@@ -5,14 +5,14 @@ import { useGlobalCtx } from "../../common/context";
 import { ICourse, IUserCourse } from "../../common/types";
 import CourseRegistrationInfo from "../../common/components/CourseRegistrationInfo";
 import CourseRegistrationForm from "../../common/components/CourseRegistrationForm";
-import PrivateGuard from "../../common/components/PrivateGuard";
+import Guard from "../../common/components/Guard";
 
 
 const Course: NextPage = () => {
 
   // to fetch [id] from the url
   const { query } = useRouter();
-  const { courses, userCourses } = useGlobalCtx();
+  const { user, courses, userCourses } = useGlobalCtx();
   const [ course, setCourse ] = useState<ICourse | undefined>(undefined);
   const [ myCourse, setMyCourse ] = useState<IUserCourse | undefined>(undefined);
 
@@ -30,7 +30,7 @@ const Course: NextPage = () => {
   }, [query, course, courses, userCourses])
 
   return (
-    <PrivateGuard>
+    <Guard condition={!!user}>
       <h1>Course</h1>
       {
         course ? (
@@ -48,7 +48,7 @@ const Course: NextPage = () => {
           <h2>not found</h2>
         )
       }
-    </PrivateGuard>
+    </Guard>
   );
 };
 

@@ -1,13 +1,13 @@
 import { NextPage } from "next";
 import { useGlobalCtx } from "../common/context";
-import PrivateGuard from "../common/components/PrivateGuard";
+import Guard from "../common/components/Guard";
 
 const Profile: NextPage = () => {
 
   const { user } = useGlobalCtx();
   
   return (
-    <PrivateGuard>
+    <Guard condition={!!user}>
       <h1>Perfil</h1>
       {
         user && (
@@ -24,7 +24,7 @@ const Profile: NextPage = () => {
           </div>
         )
       }
-    </PrivateGuard>
+    </Guard>
   );
 }
 

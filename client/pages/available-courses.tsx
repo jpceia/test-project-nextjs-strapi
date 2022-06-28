@@ -2,13 +2,13 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useGlobalCtx } from "../common/context";
 import CourseCard from "../common/components/CourseCard";
-import PrivateGuard from "../common/components/PrivateGuard";
+import Guard from "../common/components/Guard";
 import { ICourse } from "../common/types";
 import styles from "../styles/AvailableCourses.module.css"
 
 
 const AvailableCourses: NextPage = () => {
-  const { courses, userCourses } = useGlobalCtx();
+  const { user, courses, userCourses } = useGlobalCtx();
   const [ availCourses, setAvailCourses ] = useState<ICourse[]>([]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const AvailableCourses: NextPage = () => {
   }, [courses, userCourses]);
   
   return (
-    <PrivateGuard>
+    <Guard condition={!!user}>
       <h1>Cursos disponíveis</h1>
       <div className={styles.grid}>
       {
@@ -39,7 +39,7 @@ const AvailableCourses: NextPage = () => {
         )
       }
       </div>
-    </PrivateGuard>
+    </Guard>
   );
 };
 
