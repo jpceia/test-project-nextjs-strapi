@@ -1,5 +1,8 @@
 import styles from "./Header.module.css"
 
+/*
+  Header component with the page title / brand
+ */
 const Header = () => {
   return (
     <h1 className={styles.title}>

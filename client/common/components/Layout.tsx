@@ -4,6 +4,9 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 
 
+/*
+  Generic Layout component, will wrap all the pages
+ */
 const Layout = ({ children }: PropsWithChildren) => {
   return (
     <Fragment>

@@ -8,6 +8,10 @@ interface InputEntryProps {
   setValue: (value: string) => void
 }
 
+/*
+  Component to be used in forms, to get text values
+  (or variations, like email or password)
+ */
 const InputEntry = ({type, name, label, value, setValue}: InputEntryProps) => {
   return (
     <div className={styles.entry}>

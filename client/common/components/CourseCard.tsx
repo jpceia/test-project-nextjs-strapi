@@ -12,6 +12,8 @@ Cada card deve ter as seguintes informações:
   * duração em horas
   * descrição.
 No footer de cada card, deve haver um botão, que na verdade é um Link, que levará para a página do curso.
+
+  To be used in /available-courses and /my-courses pages
 */
 
 const CourseCard = ({ course }: CourseCardProps) => {

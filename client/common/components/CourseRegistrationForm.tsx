@@ -6,6 +6,16 @@ interface CourseRegistrationFormProps {
   course: ICourse;
 };
 
+
+/*
+  Course registration form
+   * the user chooses a level (stored in the selectedLevel variable)
+   * after selecting a level, the different subjects are displayed
+     to be able to register, only two subjects can be selected
+     the selected subjects ids are stored in the selectedSubjects variable
+
+  To be used in /course/:id page
+ */
 const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
   const { id, attributes } = course;
   const [ selectedLevel, setSelectedLevel ] = useState<ILevel | undefined>(undefined);
@@ -15,6 +25,7 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
   if (!attributes.levels)
     return <div></div>;
 
+  // we get all the levels from the course argument, that holds all the information
   const levels = attributes.levels!.data;
 
   const onChangeLevel = (e: ChangeEvent<HTMLSelectElement>) => {

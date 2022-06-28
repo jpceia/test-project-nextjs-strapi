@@ -6,6 +6,11 @@ interface CourseRegistrationInfoProps {
   myCourse: IUserCourse;
 }
 
+/*
+  Displays details about the current enrollment in a course
+  This includes the current level and the two subjects the user is taking
+  To be used in /course/:id page
+ */
 const CourseRegistrationInfo = ({ myCourse }: CourseRegistrationInfoProps) => {
   
   // unnesting variables
