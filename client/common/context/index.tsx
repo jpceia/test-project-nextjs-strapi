@@ -12,7 +12,7 @@ interface GlobalContextType {
   loginUser: (email: string, password: string) => void,
   logoutUser: () => void,
   registerCourse: (courseId: number, levelId: number, subject1Id: number, subject2Id: number) => void,
-  unregisterCourse: (userCourseId: number) => void,
+  unsubscribeCourse: (userCourseId: number) => void,
 }
 
 const GlobalContext = createContext<GlobalContextType>({
@@ -25,7 +25,7 @@ const GlobalContext = createContext<GlobalContextType>({
   loginUser: () => {},
   logoutUser: () => {},
   registerCourse: () => {},
-  unregisterCourse: () => {},
+  unsubscribeCourse: () => {},
 });
 
 const GlobalContextProvider = ({ children }: PropsWithChildren) => {
@@ -89,8 +89,8 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       });
   }
 
-  const unregisterCourse = (userCourseId: number) => {
-    if (!user)
+  const unsubscribeCourse = (userCourseId: number) => {
+    if (!user || !jwt)
       return ;
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses/${userCourseId}`,
     {
@@ -227,7 +227,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     <GlobalContext.Provider value={{
       jwt, user, courses, userCourses, error,
       registerUser, loginUser, logoutUser,
-      registerCourse, unregisterCourse
+      registerCourse, unsubscribeCourse
     }}>
       {children}
     </GlobalContext.Provider>

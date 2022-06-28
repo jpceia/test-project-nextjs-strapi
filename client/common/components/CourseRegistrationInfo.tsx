@@ -19,7 +19,7 @@ const CourseRegistrationInfo = ({ myCourse }: CourseRegistrationInfoProps) => {
   const subject2Name = subject2.attributes.name;
   const subject2Description = subject2.attributes.description;
 
-  const { unregisterCourse } = useGlobalCtx();
+  const { unsubscribeCourse } = useGlobalCtx();
 
   return (
     <div>
@@ -28,7 +28,7 @@ const CourseRegistrationInfo = ({ myCourse }: CourseRegistrationInfoProps) => {
       <p>{subject1Description}</p>
       <h4>Subject 2: {subject2Name}</h4>
       <p>{subject2Description}</p>
-      <button value="Remover" onClick={() => unregisterCourse(id)}>Remover</button>
+      <button value="Remover" onClick={() => unsubscribeCourse(id)}>Remover</button>
     </div>
   );
 }
