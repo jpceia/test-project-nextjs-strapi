@@ -26,6 +26,7 @@ interface ISchoolAttributes extends IBaseAttributes {
 interface ICourseAttributes extends IBaseAttributes {
   name: string;
   description?: string;
+  duration?: number;
   school?: { data: ISchool };
   levels?: { data: ILevel[] };
 }
@@ -64,6 +65,10 @@ export type IUserCourse = IIdAttrPair<IUserCourseAttributes>;
 
 export interface PropsWithChildren {
   children: ReactNode
+}
+
+export interface GuardProps extends PropsWithChildren {
+  condition: boolean
 }
 
 export interface User {

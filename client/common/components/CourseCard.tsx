@@ -16,12 +16,13 @@ No footer de cada card, deve haver um botão, que na verdade é um Link, que lev
 
 const CourseCard = ({ course }: CourseCardProps) => {
   const { id, attributes } = course;
-  const { name, description } = attributes;
+  const { name, duration, description } = attributes;
 
   return (
     <Link href={`/course/${id}`} className={styles.card}>
       <div className={styles.card}>
         <h2>{name}</h2>
+        <h3>{duration} horas</h3>
         <p>{description}</p>
       </div>
     </Link>
