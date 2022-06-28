@@ -9,7 +9,6 @@ function getErrorMessage(error: unknown) {
 }
 
 interface GlobalContextType {
-  jwt: string,
   user: User | null,
   courses: ICourse[],
   userCourses: IUserCourse[],
@@ -22,7 +21,6 @@ interface GlobalContextType {
 }
 
 const GlobalContext = createContext<GlobalContextType>({
-  jwt: '',
   user: null,
   courses: [],
   userCourses: [],
@@ -284,7 +282,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <GlobalContext.Provider value={{
-      jwt, user, courses, userCourses, error,
+      user, courses, userCourses, error,
       registerUser, loginUser, logoutUser,
       registerCourse, unsubscribeCourse
     }}>
