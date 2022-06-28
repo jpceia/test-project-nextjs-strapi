@@ -32,6 +32,21 @@ const GlobalContext = createContext<GlobalContextType>({
   unsubscribeCourse: () => {},
 });
 
+/*
+  Context provider for global state variables
+  provides the following variables
+    user
+    courses
+    userCourses
+    error
+  
+  also the following functions to manipulate the state:
+    registerUser
+    loginUser
+    logoutUser
+    registerCourse
+    unsibscribeCourse
+ */
 const GlobalContextProvider = ({ children }: PropsWithChildren) => {
   const [ jwt, setJwt ] = useLocalStorage<string>('__jwt', '');
   const [ user, setUser ] = useLocalStorage<User | null>('__user', null);
