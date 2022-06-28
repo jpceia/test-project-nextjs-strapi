@@ -33,8 +33,10 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
     const levelId = parseInt(e.target.value);
     const oldLevelId = selectedLevel?.id;
     setSelectedLevel(levels.find((level: ILevel) => level.id === levelId));
+
+    // reset selectedSubjects if level changes
     if (levelId != oldLevelId)
-      setSelectedSubjects([]); // reset selectedSubjects if level changes
+      setSelectedSubjects([]);
   }
 
   const onClick = (e: SyntheticEvent) => {
@@ -45,10 +47,14 @@ const CourseRegistrationForm = ({ course }: CourseRegistrationFormProps) => {
       console.log("Level not selected");
       return ;
     }
+
+    // if number of selected subjects is not two submission is not allowed
     if (selectedSubjects.length !== 2) {
       console.log("number of selected levels different than 2");
       return ;
     }
+
+    // dispatch course registration to the server
     registerCourse(id, selectedLevel!.id, selectedSubjects[0], selectedSubjects[1]);
   }
 
@@ -75,6 +81,9 @@ interface SelectLevelProps {
   onChange: ChangeEventHandler<HTMLSelectElement>
 }
 
+/*
+  Form part to select the level
+ */
 const SelectLevel = ({ levels, onChange }: SelectLevelProps) => {
   return (
   <select name="level" onChange={onChange}>
@@ -100,6 +109,9 @@ interface SubjectsCheckboxesProps {
   setSelectedSubjects: (subjects: number[]) => void;
 }
 
+/*
+  Form part to select the subjects
+ */
 const SubjectsCheckboxes = ({ level, selectedSubjects, setSelectedSubjects }: SubjectsCheckboxesProps) => {
 
   if (!level)
@@ -114,9 +126,9 @@ const SubjectsCheckboxes = ({ level, selectedSubjects, setSelectedSubjects }: Su
 
   const onChange = (subjectId: number) => {
     const idx = selectedSubjects.indexOf(subjectId);
-    if (idx < 0) // add new Id
+    if (idx < 0) // add new Id to the array of selected subjects
       setSelectedSubjects([...selectedSubjects, subjectId]);
-    else // remove Id
+    else // remove Id to the array of selected subjects
       setSelectedSubjects([
         ...selectedSubjects.slice(0, idx),
         ...selectedSubjects.slice(idx + 1)
