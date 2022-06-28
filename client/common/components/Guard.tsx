@@ -12,13 +12,13 @@ const Guard = ({ children, condition }: GuardProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (condition)
+    if (!condition)
       router.push("/");
   }, [condition, router]);
 
   return (condition ? 
-    <div>Redirecting...</div> :
-    <Fragment>{children}</Fragment>
+    <Fragment>{children}</Fragment> :
+    <div>Redirecting...</div>
   );
 }
 
