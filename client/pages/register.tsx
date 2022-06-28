@@ -35,7 +35,7 @@ const Register: NextPage = () => {
             type="text"
             name="name"
             label="Nome"
-            value={email}
+            value={name}
             setValue={setName}
           />
           <InputEntry
