@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import useLocalStorage from "../state/local-storage";
 import { PropsWithChildren, ICourse, IUserCourse, User } from "../types";
 
 interface GlobalContextType {
