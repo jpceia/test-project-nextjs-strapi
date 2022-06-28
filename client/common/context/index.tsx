@@ -44,7 +44,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     setUserCourses([]);
   }
 
-  const fetchCourses = () => {
+  const fetchCourses = useCallback(() => {
     if (!jwt)
       return ;
     // https://devtrium.com/posts/async-functions-useeffect
@@ -67,11 +67,13 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
           setCourses(data);
         }
       });
-  }
+  }, [jwt]);
 
-  const fetchUserCourses = (userId: number) => {
-    // https://devtrium.com/posts/async-functions-useeffect
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses?populate=*&filters[user][id][$eq]=${userId}`,
+  const fetchUserCourses = useCallback(() => {
+    if (!user || !jwt)
+      return ;
+
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses?populate=*&filters[user][id][$eq]=${user!.id}`,
     {
       method: 'GET',
       headers: {
@@ -90,7 +92,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
           setUserCourses(data);
         }
       });
-  }
+  }, [user, jwt]);
 
   const unsubscribeCourse = (userCourseId: number) => {
     if (!user || !jwt)
@@ -119,7 +121,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
   }
 
   const registerCourse = (courseId: number, levelId: number, subject1Id: number, subject2Id: number) => {
-    if (!user)
+    if (!user || !jwt)
       return;
     const userId = user!.id;
     const body = JSON.stringify({
@@ -130,7 +132,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
         subject_1: subject1Id,
         subject_2: subject2Id,
       }
-    })
+    });
 
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses`,
     {
@@ -148,7 +150,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
           setError(json.error.message);
         }
         else {
-          fetchUserCourses(userId);
+          fetchUserCourses();
           router.push("/");
         }
       });
@@ -157,7 +159,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
   const registerUser = (username: string, email: string, password: string) => {
 
     resetStates();
-    fetchCourses();
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local/register`;
     const headers = {
@@ -183,7 +184,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
         else {
           setJwt(json.jwt);
           setUser(json.user);
-          fetchUserCourses(json.user.id);
         }
       });
   };
@@ -191,7 +191,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
   const loginUser = (email: string, password: string) => {
 
     resetStates();
-    fetchCourses();
 
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/local`;
     const headers = {
@@ -216,7 +215,6 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
         else {
           setJwt(json.jwt);
           setUser(json.user);
-          fetchUserCourses(json.user.id);
         }
       });
   };
@@ -225,6 +223,14 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     resetStates();
     router.push("/");
   }
+
+  useEffect(() => {
+    if (jwt && user)
+    {
+      fetchCourses();
+      fetchUserCourses();
+    }
+  }, [jwt, user, fetchCourses, fetchUserCourses]);
 
   return (
     <GlobalContext.Provider value={{
