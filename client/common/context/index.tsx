@@ -62,6 +62,12 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     setUserCourses([]);
   }
 
+  const handleError = (error: unknown) => {
+    const msg = getErrorMessage(error);
+    console.log(msg);
+    setError(msg);
+  }
+
   const fetchCourses = useCallback(() => {
     if (!jwt)
       return ;
@@ -77,20 +83,13 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       }
     }).then(response => response.json())
       .then(json => {
-        if (json.error) {
-          console.log(json.error);
-          setError(json.error.message);
-        }
-        else {
-          const { data } = json;
-          setCourses(data);
-        }
+        if (json.error)
+          throw Error(json.error)
+        return json;
       })
-      .catch((error) => {
-        const msg = getErrorMessage(error);
-        console.log(msg);
-        setError(msg);
-      });
+      .then(json => json.data)
+      .then(setCourses)
+      .catch(handleError);
     }, [jwt]);
 
   const fetchUserCourses = useCallback(() => {
@@ -107,20 +106,15 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       }
     }).then(response => response.json())
       .then(json => {
-        if (json.error) {
-          console.log(json.error);
-          setError(json.error.message);
-        }
-        else {
-          const { data } = json;
-          setUserCourses(data);
-        }
+        if (json.error)
+          throw Error(json.error)
+        return json;
       })
-      .catch((error) => {
-        const msg = getErrorMessage(error);
-        console.log(msg);
-        setError(msg);
-      });
+      .then(json => {
+        const { data } = json;
+        setUserCourses(data);
+      })
+      .catch(handleError);
   }, [user, jwt]);
 
   const unsubscribeCourse = (userCourseId: number) => {
@@ -137,22 +131,17 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       }
     }).then(response => response.json())
       .then(json => {
-        if (json.error) {
-          console.log(json.error);
-          setError(json.error.message);
-        }
-        else {
-          setUserCourses(userCourses.filter((userCourse: IUserCourse) => {
-            return userCourse.id != userCourseId;
-          }));
-          router.push("/");
-        }
+        if (json.error)
+          throw Error(json.error)
+        return json;
       })
-      .catch((error) => {
-        const msg = getErrorMessage(error);
-        console.log(msg);
-        setError(msg);
-      });
+      .then(() => {
+        setUserCourses(userCourses.filter((userCourse: IUserCourse) => {
+          return userCourse.id != userCourseId;
+        }));
+        router.push("/");
+      })
+      .catch(handleError);
   };
 
   const registerCourse = (courseId: number, levelId: number, subject1Id: number, subject2Id: number) => {
@@ -180,21 +169,15 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       body
     }).then(response => response.json())
       .then(json => {
-        console.log(json)
-        if (json.error) {
-          console.log(json.error);
-          setError(json.error.message);
-        }
-        else {
-          fetchUserCourses();
-          router.push("/");
-        }
+        if (json.error)
+          throw Error(json.error)
+        return json;
       })
-      .catch((error) => {
-        const msg = getErrorMessage(error);
-        console.log(msg);
-        setError(msg);
-      });
+      .then(() => {
+        fetchUserCourses();
+        router.push("/");
+      })
+      .catch(handleError);
   };
 
   const registerUser = (username: string, email: string, password: string) => {
@@ -217,21 +200,16 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       headers,
       body
     }).then((response) => response.json())
-      .then((json) => {
-        if (json.error) {
-          console.log(json.error);
-          setError(json.error.message);
-        }
-        else {
-          setJwt(json.jwt);
-          setUser(json.user);
-        }
+      .then(json => {
+        if (json.error)
+          throw Error(json.error)
+        return json;
       })
-      .catch((error) => {
-        const msg = getErrorMessage(error);
-        console.log(msg);
-        setError(msg);
-      });
+      .then(json => {
+        setJwt(json.jwt);
+        setUser(json.user);
+      })
+      .catch(handleError);
   };
 
   const loginUser = (email: string, password: string) => {
@@ -253,21 +231,16 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       headers,
       body
     }).then((response) => response.json())
-      .then((json) => {
-        if (json.error) {
-          console.log(json.error);
-          setError(json.error.message);
-        }
-        else {
-          setJwt(json.jwt);
-          setUser(json.user);
-        }
+      .then(json => {
+        if (json.error)
+          throw Error(json.error)
+        return json;
       })
-    .catch((error) => {
-      const msg = getErrorMessage(error);
-      console.log(msg);
-      setError(msg);
-    });
+      .then((json) => {
+        setJwt(json.jwt);
+        setUser(json.user);
+      })
+    .catch(handleError);
   };
 
   const logoutUser = () => {
