@@ -67,98 +67,92 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       return ;
     // https://devtrium.com/posts/async-functions-useeffect
 
-    try {
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/courses?populate[0]=*&populate[levels][populate][1]=subjects`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/courses?populate[0]=*&populate[levels][populate][1]=subjects`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
         }
-      }).then(response => response.json())
-        .then(json => {
-          if (json.error) {
-            console.log(json.error);
-            setError(json.error.message);
-          }
-          else {
-            const { data } = json;
-            setCourses(data);
-          }
-        });
-    }
-    catch (error) {
-      const msg = getErrorMessage(error);
-      console.log(msg);
-      setError(msg);
-    }
-  }, [jwt]);
+        else {
+          const { data } = json;
+          setCourses(data);
+        }
+      })
+      .catch((error) => {
+        const msg = getErrorMessage(error);
+        console.log(msg);
+        setError(msg);
+      });
+    }, [jwt]);
 
   const fetchUserCourses = useCallback(() => {
     if (!user || !jwt)
       return ;
 
-    try {
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses?populate=*&filters[user][id][$eq]=${user!.id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(json => {
-          if (json.error) {
-            console.log(json.error);
-            setError(json.error.message);
-          }
-          else {
-            const { data } = json;
-            setUserCourses(data);
-          }
-        });
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses?populate=*&filters[user][id][$eq]=${user!.id}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
-      catch (error) {
+    }).then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
+        }
+        else {
+          const { data } = json;
+          setUserCourses(data);
+        }
+      })
+      .catch((error) => {
         const msg = getErrorMessage(error);
         console.log(msg);
         setError(msg);
-      }
+      });
   }, [user, jwt]);
 
   const unsubscribeCourse = (userCourseId: number) => {
     if (!user || !jwt)
       return ;
 
-    try {
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses/${userCourseId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-        .then(json => {
-          if (json.error) {
-            console.log(json.error);
-            setError(json.error.message);
-          }
-          else {
-            setUserCourses(userCourses.filter((userCourse: IUserCourse) => {
-              return userCourse.id != userCourseId;
-            }));
-            router.push("/");
-          }
-        });
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses/${userCourseId}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
-      catch (error) {
+    }).then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
+        }
+        else {
+          setUserCourses(userCourses.filter((userCourse: IUserCourse) => {
+            return userCourse.id != userCourseId;
+          }));
+          router.push("/");
+        }
+      })
+      .catch((error) => {
         const msg = getErrorMessage(error);
         console.log(msg);
         setError(msg);
-      }
+      });
   };
 
   const registerCourse = (courseId: number, levelId: number, subject1Id: number, subject2Id: number) => {
@@ -175,34 +169,32 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       }
     });
 
-    try {
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body
-      }).then(response => response.json())
-        .then(json => {
-          console.log(json)
-          if (json.error) {
-            console.log(json.error);
-            setError(json.error.message);
-          }
-          else {
-            fetchUserCourses();
-            router.push("/");
-          }
-        });
-      }
-      catch (error) {
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body
+    }).then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
+        }
+        else {
+          fetchUserCourses();
+          router.push("/");
+        }
+      })
+      .catch((error) => {
         const msg = getErrorMessage(error);
         console.log(msg);
         setError(msg);
-      }
+      });
   };
 
   const registerUser = (username: string, email: string, password: string) => {
@@ -220,28 +212,26 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       password
     });
 
-    try {
-      fetch(url, {
-        method: 'POST',
-        headers,
-        body
-      }).then((response) => response.json())
-        .then((json) => {
-          if (json.error) {
-            console.log(json.error);
-            setError(json.error.message);
-          }
-          else {
-            setJwt(json.jwt);
-            setUser(json.user);
-          }
-        });
-      }
-      catch (error) {
+    fetch(url, {
+      method: 'POST',
+      headers,
+      body
+    }).then((response) => response.json())
+      .then((json) => {
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
+        }
+        else {
+          setJwt(json.jwt);
+          setUser(json.user);
+        }
+      })
+      .catch((error) => {
         const msg = getErrorMessage(error);
         console.log(msg);
         setError(msg);
-      }
+      });
   };
 
   const loginUser = (email: string, password: string) => {
@@ -258,28 +248,26 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       password
     });
 
-    try {
-      fetch(url, {
-        method: 'POST',
-        headers,
-        body
-      }).then((response) => response.json())
-        .then((json) => {
-          if (json.error) {
-            console.log(json.error);
-            setError(json.error.message);
-          }
-          else {
-            setJwt(json.jwt);
-            setUser(json.user);
-          }
-        });
-      }
-      catch (error) {
-        const msg = getErrorMessage(error);
-        console.log(msg);
-        setError(msg);
-      }
+    fetch(url, {
+      method: 'POST',
+      headers,
+      body
+    }).then((response) => response.json())
+      .then((json) => {
+        if (json.error) {
+          console.log(json.error);
+          setError(json.error.message);
+        }
+        else {
+          setJwt(json.jwt);
+          setUser(json.user);
+        }
+      })
+    .catch((error) => {
+      const msg = getErrorMessage(error);
+      console.log(msg);
+      setError(msg);
+    });
   };
 
   const logoutUser = () => {
