@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import useLocalStorage from "../state/local-storage";
-import { PropsWithChildren, ICourse, IUserCourse, User } from "../types";
+import { PropsWithChildren, ICourse, IUserCourse, User, ISessionData } from "../../types";
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) return error.message
@@ -48,28 +48,26 @@ const GlobalContext = createContext<GlobalContextType>({
     unsibscribeCourse
  */
 const GlobalContextProvider = ({ children }: PropsWithChildren) => {
-  const [ jwt, setJwt ] = useLocalStorage<string>('__jwt', '');
-  const [ user, setUser ] = useLocalStorage<User | null>('__user', null);
+  const [ sessionData, setSessionData ] = useLocalStorage<ISessionData | null>('__user', null);
   const [ courses, setCourses ] = useLocalStorage<ICourse[]>('__courses', []);
   const [ userCourses, setUserCourses ] = useLocalStorage<IUserCourse[]>('__user_courses', []);
   const [ error, setError ] = useLocalStorage<string>('__error', '');
   const router = useRouter();
 
   const resetStates = () => {
-    setJwt('');
-    setUser(null);
+    setSessionData(null);
     setError('');
     setUserCourses([]);
   }
 
-  const handleError = (error: unknown) => {
+  const handleError = useCallback((error: unknown) => {
     const msg = getErrorMessage(error);
     console.log(msg);
     setError(msg);
-  }
+  }, [setError]);
 
   const fetchCourses = useCallback(() => {
-    if (!jwt)
+    if (!sessionData)
       return ;
     // https://devtrium.com/posts/async-functions-useeffect
 
@@ -77,7 +75,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${sessionData.jwt}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -90,17 +88,17 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
       .then(json => json.data)
       .then(setCourses)
       .catch(handleError);
-    }, [jwt]);
+    }, [sessionData, handleError]);
 
   const fetchUserCourses = useCallback(() => {
-    if (!user || !jwt)
+    if (!sessionData)
       return ;
 
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses?populate=*&filters[user][id][$eq]=${user!.id}`,
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses?populate=*&filters[user][id][$eq]=${sessionData.user.id}`,
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${sessionData.jwt}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -115,17 +113,17 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
         setUserCourses(data);
       })
       .catch(handleError);
-  }, [user, jwt]);
+  }, [sessionData, handleError]);
 
   const unsubscribeCourse = (userCourseId: number) => {
-    if (!user || !jwt)
+    if (!sessionData)
       return ;
 
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user-courses/${userCourseId}`,
     {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${sessionData.jwt}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -145,9 +143,9 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
   };
 
   const registerCourse = (courseId: number, levelId: number, subject1Id: number, subject2Id: number) => {
-    if (!user || !jwt)
+    if (!sessionData)
       return;
-    const userId = user!.id;
+    const userId = sessionData!.user.id;
     const body = JSON.stringify({
       data: {
         user: userId,
@@ -162,7 +160,7 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${sessionData.jwt}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
@@ -173,10 +171,8 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
           throw Error(json.error)
         return json;
       })
-      .then(() => {
-        fetchUserCourses();
-        router.push("/");
-      })
+      .then(fetchUserCourses)
+      .then(() => router.push("/"))
       .catch(handleError);
   };
 
@@ -205,9 +201,10 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
           throw Error(json.error)
         return json;
       })
-      .then(json => {
-        setJwt(json.jwt);
-        setUser(json.user);
+      .then(setSessionData)
+      .then(() => {
+        fetchCourses();
+        fetchUserCourses();
       })
       .catch(handleError);
   };
@@ -236,11 +233,12 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
           throw Error(json.error)
         return json;
       })
-      .then((json) => {
-        setJwt(json.jwt);
-        setUser(json.user);
+      .then(setSessionData)
+      .then(() => {
+        fetchCourses();
+        fetchUserCourses();
       })
-    .catch(handleError);
+      .catch(handleError);
   };
 
   const logoutUser = () => {
@@ -248,17 +246,10 @@ const GlobalContextProvider = ({ children }: PropsWithChildren) => {
     router.push("/");
   }
 
-  useEffect(() => {
-    if (jwt && user)
-    {
-      fetchCourses();
-      fetchUserCourses();
-    }
-  }, [jwt, user, fetchCourses, fetchUserCourses]);
-
   return (
     <GlobalContext.Provider value={{
-      user, courses, userCourses, error,
+      user: sessionData ? sessionData.user : null,
+      courses, userCourses, error,
       registerUser, loginUser, logoutUser,
       registerCourse, unsubscribeCourse
     }}>

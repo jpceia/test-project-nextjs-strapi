@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useGlobalCtx } from "../common/context";
 import CourseCard from "../common/components/CourseCard";
 import Guard from "../common/components/Guard";
-import { ICourse } from "../common/types";
+import { ICourse } from "../types";
 import styles from "../styles/AvailableCourses.module.css"
 
 

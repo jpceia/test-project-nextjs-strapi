@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
-import { GuardProps } from "../types";
+import { GuardProps } from "../../types";
 
 /*
   Generic Guard to protect pages from being accessed if a given condition is

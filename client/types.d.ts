@@ -81,3 +81,8 @@ export interface User {
   createdAt: string,
   updatedat: string
 }
+
+export interface ISessionData {
+  jwt: string,
+  user: User
+}

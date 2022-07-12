@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useGlobalCtx } from "../../common/context";
-import { ICourse, IUserCourse } from "../../common/types";
+import { ICourse, IUserCourse } from "../../types";
 import CourseRegistrationInfo from "../../common/components/CourseRegistrationInfo";
 import CourseRegistrationForm from "../../common/components/CourseRegistrationForm";
 import Guard from "../../common/components/Guard";

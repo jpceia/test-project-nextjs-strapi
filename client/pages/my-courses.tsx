@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useGlobalCtx } from "../common/context";
 import CourseCard from "../common/components/CourseCard";
-import { ICourse, IUserCourse } from "../common/types";
+import { ICourse, IUserCourse } from "../types";
 import Guard from "../common/components/Guard";
 import styles from "../styles/MyCourses.module.css"
 

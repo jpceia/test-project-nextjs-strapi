@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { PropsWithChildren } from "../types";
+import { PropsWithChildren } from "../../types";
 import Header from "./Header";
 import Navbar from "./Navbar";
 
