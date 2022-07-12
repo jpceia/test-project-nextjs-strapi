@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useGlobalCtx } from "../common/context";
-import CourseCard from "../common/components/CourseCard";
+import Card from "../common/components/course/Card";
 import { ICourse, IUserCourse } from "../types";
 import Guard from "../common/components/Guard";
 import styles from "../styles/MyCourses.module.css"
@@ -22,7 +22,7 @@ const MyCourses: NextPage = () => {
             return data;
           }).map((course: ICourse) => {
             const { id } = course;
-            return <CourseCard key={id} course={course} />
+            return <Card key={id} course={course} />
           })
         ) : (
           <h2>Ainda não é estudante de nenhum curso</h2>

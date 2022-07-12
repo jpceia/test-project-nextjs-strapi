@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useGlobalCtx } from "../common/context";
-import CourseCard from "../common/components/CourseCard";
+import Card from "../common/components/course/Card";
 import Guard from "../common/components/Guard";
 import { ICourse } from "../types";
 import styles from "../styles/AvailableCourses.module.css"
@@ -32,7 +32,7 @@ const AvailableCourses: NextPage = () => {
         availCourses && availCourses.length ? (
           availCourses.map((course: ICourse) => {
             const { id } = course;
-            return <CourseCard key={id} course={course} />
+            return <Card key={id} course={course} />
           })
         ) : (
           <h2>Não existem cursos disponiveis</h2>

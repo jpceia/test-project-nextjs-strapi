@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useGlobalCtx } from "../../common/context";
 import { ICourse, IUserCourse } from "../../types";
-import CourseRegistrationInfo from "../../common/components/CourseRegistrationInfo";
-import CourseRegistrationForm from "../../common/components/CourseRegistrationForm";
+import RegistrationInfo from "../../common/components/course/RegistrationInfo";
+import RegistrationForm from "../../common/components/course/RegistrationForm";
 import Guard from "../../common/components/Guard";
 
 
@@ -40,8 +40,8 @@ const Course: NextPage = () => {
             <p><strong>{myCourse ? "registered" : "not registered"}</strong></p>
             {
               myCourse ? 
-                <CourseRegistrationInfo course={course} myCourse={myCourse}/> : // registered - shows info about my registration
-                <CourseRegistrationForm course={course} />                   // not registered - shows registration form
+                <RegistrationInfo course={course} myCourse={myCourse}/> : // registered - shows info about my registration
+                <RegistrationForm course={course} />                   // not registered - shows registration form
             }
           </div>
         ) : (

@@ -1,5 +1,5 @@
-import { ICourse } from "../types";
-import styles from './CourseCard.module.css'
+import { ICourse } from "../../../types";
+import styles from './Card.module.css'
 import Link from "next/link";
 
 interface CourseCardProps {

@@ -1,6 +1,6 @@
 import { ChangeEvent, ChangeEventHandler, SyntheticEvent, useState } from "react";
-import { useGlobalCtx } from "../context";
-import { ICourse, ILevel, ISubject } from "../types";
+import { useGlobalCtx } from "../../context";
+import { ICourse, ILevel, ISubject } from "../../../types";
 
 interface CourseRegistrationFormProps {
   course: ICourse;
